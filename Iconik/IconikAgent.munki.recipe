@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Description</key>
+	<string>Downloads the latest version of Iconik Agent and imports it into Munki. You MUST specify the architecture (either "x64" or "arm64") in your override.</string>
+	<key>Identifier</key>
+	<string>com.github.lashomb.munki.IconikAgent</string>
+	<key>Input</key>
+	<dict>
+		<key>NAME</key>
+		<string>IconikAgent</string>
+		<!--See ParentRecipe for ARCH options ("x64" or "arm64")-->
+		<key>ARCH</key>
+		<string></string>
+		<key>MUNKI_REPO_SUBDIR</key>
+		<string>apps/%NAME%</string>
+		<key>pkginfo</key>
+		<dict>
+			<key>catalogs</key>
+			<array>
+				<string>testing</string>
+			</array>
+			<key>description</key>
+			<string>Iconik Agent is a desktop companion to iconik that simplifies file transfer workflows, allowing users to queue, pause, resume, and download uploads and collections outside the iconik web UI.</string>
+			<key>developer</key>
+			<string>Backlight (Iconik)</string>
+			<key>display_name</key>
+			<string>Iconik Agent</string>
+			<key>name</key>
+			<string>%NAME%</string>
+			<key>unattended_install</key>
+			<true/>
+		</dict>
+	</dict>
+	<key>MinimumVersion</key>
+	<string>2.3</string>
+	<key>ParentRecipe</key>
+	<string>com.github.lashomb.download.IconikAgent</string>
+	<key>Process</key>
+	<array>
+		<dict>
+			<key>Processor</key>
+			<string>MunkiImporter</string>
+			<key>Arguments</key>
+			<dict>
+				<key>pkg_path</key>
+				<string>%pathname%</string>
+				<key>repo_subdirectory</key>
+				<string>%MUNKI_REPO_SUBDIR%</string>
+			</dict>
+		</dict>
+	</array>
+</dict>
+</plist>

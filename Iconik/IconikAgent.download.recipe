@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Description</key>
+	<string>Downloads the latest version of Iconik Agent. You MUST specify the architecture (either "x64" or "arm64") in your override.</string>
+	<key>Identifier</key>
+	<string>com.github.lashomb.download.IconikAgent</string>
+	<key>Input</key>
+	<dict>
+		<key>NAME</key>
+		<string>IconikAgent</string>
+		<!-- Iconik distributes separate DMGs per architecture.
+		     Set ARCH to one of:
+		         x64    (Intel Macs)
+		         arm64  (Apple Silicon)
+		-->
+		<key>ARCH</key>
+		<string></string>
+	</dict>
+	<key>MinimumVersion</key>
+	<string>2.3</string>
+	<key>Process</key>
+	<array>
+		<dict>
+			<key>Processor</key>
+			<string>URLDownloader</string>
+			<key>Arguments</key>
+			<dict>
+				<key>url</key>
+				<string>https://packages.iconik.io/agent/darwin/%ARCH%/iconik%20Agent-%ARCH%-latest.dmg</string>
+				<key>filename</key>
+				<string>%NAME%-%ARCH%.dmg</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>Processor</key>
+			<string>EndOfCheckPhase</string>
+		</dict>
+		<dict>
+			<key>Processor</key>
+			<string>CodeSignatureVerifier</string>
+			<key>Arguments</key>
+			<dict>
+				<key>input_path</key>
+				<string>%pathname%/iconik Agent.app</string>
+				<key>strict_verification</key>
+				<true/>
+				<key>requirement</key>
+				<string>identifier "io.iconik.desktopagent" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "5LDVD44GKB"</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>Processor</key>
+			<string>Versioner</string>
+			<key>Arguments</key>
+			<dict>
+				<key>input_plist_path</key>
+				<string>%pathname%/iconik Agent.app/Contents/Info.plist</string>
+			</dict>
+		</dict>
+	</array>
+</dict>
+</plist>
