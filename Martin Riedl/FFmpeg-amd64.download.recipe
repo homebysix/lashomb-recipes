@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Description</key>
+	<string>Downloads the latest Intel (amd64) release build of FFmpeg.</string>
+	<key>Identifier</key>
+	<string>com.github.lashomb.download.FFmpeg-amd64</string>
+	<key>Input</key>
+	<dict>
+		<key>NAME</key>
+		<string>FFmpeg</string>
+	</dict>
+	<key>MinimumVersion</key>
+	<string>2.3</string>
+	<key>Process</key>
+	<array>
+		<dict>
+			<key>Processor</key>
+			<string>URLTextSearcher</string>
+			<key>Arguments</key>
+			<dict>
+				<key>url</key>
+				<string>https://ffmpeg.martin-riedl.de/redirect/latest/macos/amd64/release/ffmpeg.pkg</string>
+				<key>curl_opts</key>
+				<array>
+					<string>--range</string>
+					<string>0-0</string>
+					<string>--output</string>
+					<string>/dev/null</string>
+					<string>--write-out</string>
+					<string>%{url_effective}</string>
+				</array>
+				<key>re_pattern</key>
+				<string>_(?P&lt;version&gt;[^/]+)/ffmpeg\.pkg</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>Processor</key>
+			<string>URLDownloader</string>
+			<key>Arguments</key>
+			<dict>
+				<key>url</key>
+				<string>https://ffmpeg.martin-riedl.de/redirect/latest/macos/amd64/release/ffmpeg.pkg</string>
+				<key>filename</key>
+				<string>%NAME%-amd64.pkg</string>
+				<key>curl_opts</key>
+				<array/>
+			</dict>
+		</dict>
+		<dict>
+			<key>Processor</key>
+			<string>EndOfCheckPhase</string>
+		</dict>
+	</array>
+</dict>
+</plist>
