@@ -1,0 +1,36 @@
+---
+Description: |
+  Downloads the latest Lore Desktop macOS (arm64) DMG from releases.lore.org.
+
+  Source repo: https://github.com/EpicGames/lore
+Identifier: com.github.lashomb.download.LoreDesktop
+MinimumVersion: '2.3'
+
+Input:
+  NAME: LoreDesktop
+  DOWNLOAD_URL: https://releases.lore.org/desktop/releases/stable/Lore-Desktop-arm64.dmg
+
+Process:
+  - Processor: URLDownloader
+    Arguments:
+      url: '%DOWNLOAD_URL%'
+      filename: '%NAME%.dmg'
+
+  - Processor: EndOfCheckPhase
+
+  - Processor: StopProcessingIf
+    Arguments:
+      predicate: download_changed == FALSE
+
+  - Processor: AppDmgVersioner
+    Arguments:
+      dmg_path: '%pathname%'
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: '%pathname%/Lore Desktop.app'
+      requirement: >-
+        identifier "com.epicgames.lore-desktop" and anchor apple generic
+        and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */
+        and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */
+        and certificate leaf[subject.OU] = "96DBZ92D3Y"

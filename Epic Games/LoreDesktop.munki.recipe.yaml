@@ -1,0 +1,35 @@
+---
+Description: Downloads the latest version of Lore Desktop and imports it into Munki.
+Identifier: com.github.lashomb.munki.LoreDesktop
+ParentRecipe: com.github.lashomb.download.LoreDesktop
+MinimumVersion: '2.3'
+
+Input:
+  NAME: LoreDesktop
+  MUNKI_REPO_SUBDIR: apps/epicgames/lore-desktop
+  pkginfo:
+    catalogs:
+      - testing
+    category: Developer Tools
+    description: >-
+      Lore Desktop is the GUI client for Lore, an open-source revision control
+      system designed for unprecedented scalability of both data and teams. It is
+      optimized for projects that combine code with large binary assets, including
+      games and entertainment, and caters for the needs of developers and artists
+      alike.
+    developer: Epic Games
+    display_name: Lore Desktop
+    name: '%NAME%'
+    minimum_os_version: '12.0'
+    supported_architectures:
+      - arm64
+    unattended_install: true
+    unattended_uninstall: true
+
+Process:
+  - Processor: MunkiImporter
+    Arguments:
+      pkg_path: '%pathname%'
+      repo_subdirectory: '%MUNKI_REPO_SUBDIR%'
+      extract_icon: true
+  
